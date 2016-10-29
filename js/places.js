@@ -49,7 +49,7 @@ var myLocations = [
         lng: -0.1233
     }
 }, {
-    'title': 'Hyde Park',
+    'title': 'Hyde Park, London',
     'coords': {
         lat: 51.5073,
         lng: -0.1657

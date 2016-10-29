@@ -173,7 +173,7 @@ var ViewModel = function() {
                 });
             };
             getRestaurants();
-
+            
             // Use streetview service to get the closest streetview image
             streetViewService.getPanoramaByLocation(marker.position, radius, getStreetView);
 
