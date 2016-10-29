@@ -1,9 +1,7 @@
 /* Set the width of the side navigation to 250px */
 function openNav() {
 	document.getElementById("mySidenav").style.width = "300px";
-	// collapse nav after 20 seconds inactivity
-	setTimeout(function(){ closeNav(); }, 20000);
-    
+	// collapse nav after 20 seconds inactivity    
 }
 
 /* Set the width of the side navigation to 0 */
