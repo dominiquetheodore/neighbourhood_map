@@ -1,16 +1,20 @@
 var map;
 
 /* start knockoutJS viewmodel */
-var ViewModel = function() {
+var ViewModel = function(map) {
     var self = this;
+
     self.infoWindow = new google.maps.InfoWindow({
         minWidth: 3000
     });
+
+    self.searchTerm = ko.observable('');
 
     // reset map
     google.maps.event.addDomListener(document.getElementById("reset-btn"), "click", function() {
         map.setZoom(13);
         map.setCenter(myLocations[0].coords);
+        self.searchTerm('');
         self.infoWindow.close();
     });
 
@@ -47,35 +51,31 @@ var ViewModel = function() {
         // push it into location list
         self.locationList().push(loc);
     });
-
-    self.visiblePlaces = ko.observableArray([]);
-    myLocations.forEach(function(loc) {
-        var loc = new Location(loc);
-        self.visiblePlaces().push(loc);
-
+    
+    self.filteredList = ko.computed(function() {
+        var searchTerm = self.searchTerm().toLowerCase();
+        if (searchTerm === null) {
+            return self.locationList();
+        } else {
+            return ko.utils.arrayFilter(self.locationList(), function(location) {
+            if(location.title().toLowerCase().indexOf(searchTerm) >= 0) {
+                        // show the marker on google map
+                        location.marker.setVisible(true);
+                        return true;
+                    } else {
+                        location.marker.setVisible(false);
+                        return false;
+                    }
+            });
+        }
     });
-
-    self.searchTerm = ko.observable('');
-
-    self.filterLocations = function() {
-        self.visiblePlaces.removeAll();
-        self.locationList().forEach(function(loc) {
-            if (loc.title().toLowerCase().indexOf(self.searchTerm()) != -1) {
-                self.visiblePlaces.push(loc);
-            }
-        });
-    }
 
     self.currentLocation = ko.observable('');
 
     // set location through list menu
     this.setLocation = function(clickedLocation) {
         self.currentLocation(clickedLocation);
-        self.populateInfoWindow(clickedLocation.marker, self.infoWindow);
-        map.setCenter(clickedLocation.marker.getPosition());
-        map.setZoom(15);
-        self.toggleBounce(clickedLocation.marker);
-        closeNav();
+        google.maps.event.trigger(clickedLocation.marker, 'click');
     };
 
     self.populateInfoWindow = function(marker, infowindow) {
@@ -107,8 +107,6 @@ var ViewModel = function() {
                     };
                     var panorama = new google.maps.StreetViewPanorama(
                         document.getElementById('pano'), panoramaOptions);
-                    $('#pano').show();
-                    panorama.setVisible(true);
                 } else {
                     infowindow.setContent('<h4>' + marker.title + '</h4><hr>' +
                         '<div>No Street View Found</div>');
@@ -164,16 +162,19 @@ var ViewModel = function() {
                                     $('#fnav').append('<li class="venue"><b>' + val.name + '</b>' + (data.response.venue.rating ? ('<br>' + 'Foursquare rating: ' + '<b>' + data.response.venue.rating + '</b>' + '<br>') : '<br>') + val.location.formattedAddress + '<br>' + (val.url ? '<a target="_blank" href="' + val.url + '">' + val.url + '</a>' : '') + '</li>');
                                 },
                                 error: function() {
-                                    alert('Unable to fetch restaurants from Foursquare');
+                                    alert('Unable to fetch restaurant info from Foursquare');
                                 }
                             });
 
                         });
+                    },
+                    error: function(){
+                        alert('unable to fetch restaurants from Foursquare')
                     }
                 });
             };
             getRestaurants();
-            
+
             // Use streetview service to get the closest streetview image
             streetViewService.getPanoramaByLocation(marker.position, radius, getStreetView);
 
@@ -182,6 +183,7 @@ var ViewModel = function() {
 
         }
     };
+
 };
 
 // load Google Map

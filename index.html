@@ -2,15 +2,14 @@
 <html>
 <head>
 	<script src="js/script.js"></script>
-	<link rel="stylesheet" type="text/css" href="css/styles.css">
+	<link rel="stylesheet" href="css/styles.css">
 	<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
 	<script src="https://use.fontawesome.com/aef1209c87.js"></script>
 	<script src="js/libs/jquery-3.1.1.min.js"></script>
 	<script src="js/libs/knockout-3.4.0.js"></script>
-	<script src="js/libs/jquery.modal.js"></script>
-	<script async defer onerror="alert('Failed loading Google Map');" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAGv4TBKRTvTbAyIViy2wYriWdMU_lKLhU&libraries=geometry&v=3.26&callback=initMap"></script>
 	<script src="js/places.js"></script>
 	<script src="js/app.js"></script>
+	<script async defer onerror="alert('Failed loading Google Map');" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAGv4TBKRTvTbAyIViy2wYriWdMU_lKLhU&libraries=geometry&v=3.26&callback=initMap"></script>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Neighbourhood Map</title>
 </head>
@@ -20,10 +19,11 @@
 			<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
 			<br><br>
 		</div>
-		<input class="search_field" type="text" placeholder="Search..." data-bind="textInput: searchTerm, event: {keyup: filterLocations}" />
-		<ul data-bind="foreach: visiblePlaces">
+		<input class="search_field" type="text" placeholder="Search..." data-bind="textInput: searchTerm" />
+
+		<ul data-bind="foreach: filteredList">
 			<li>
-				<span data-bind="text: $data.title, click: $parent.setLocation"></span>
+				<span data-bind="text: $data.title, click:$parent.setLocation"></span>
 			</li>
 		</ul>
 	</div>
