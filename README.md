@@ -1,5 +1,5 @@
 # Neighbourhood Map Project# Neighbourhood Map Project
-A single page application showing several well-known areas of London. Additional information about the area and nearby restaurants is fetched using the Wikimedia and Foursquare API.
+A single page application showing several well-known areas of London on Google Map. Additional information about the area and nearby restaurants is fetched using the Wikimedia and Foursquare API.
 
 This project was made in fulfilment of Part 5 of Udacity's Full Stack Developer Nanodegree.
 
