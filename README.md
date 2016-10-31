@@ -10,6 +10,8 @@ You can visit the live version of the app here:
 
 or download this repository to your local folder.
 
+To run the application, simply open index.html in your browser.
+
 ## Features
 * A full screen Google map of Central London area showing markers on well-known locations.
 * Clicking on a marker displays a Streetview of the area, and a related Wikipedia snippet. A list of restaurants nearby is populated from Foursquare.

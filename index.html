@@ -1,15 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<script src="js/script.js"></script>
 	<link rel="stylesheet" href="css/styles.css">
 	<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
-	<script src="https://use.fontawesome.com/aef1209c87.js"></script>
-	<script src="js/libs/jquery-3.1.1.min.js"></script>
-	<script src="js/libs/knockout-3.4.0.js"></script>
-	<script src="js/places.js"></script>
-	<script src="js/app.js"></script>
-	<script async defer onerror="alert('Failed loading Google Map');" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAGv4TBKRTvTbAyIViy2wYriWdMU_lKLhU&libraries=geometry&v=3.26&callback=initMap"></script>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Neighbourhood Map</title>
 </head>
@@ -31,11 +24,18 @@
 	<div id="myRightnav" class="rightnav">
 		<div class="sidenav-header">
 			<a id="close_btn" href="javascript:void(0)" class="closebtn" onclick="closeFourSquareNav()">&times;</a>
+			<img style="float:right; margin-top:5px; margin-left:20px; width: 220px;" src="img/powered_by_foursquare.png">
+			<span class="rightnav-title"><span data-bind="text: currentLocation().title"></span></span>
 			<br><br>
-		</div>		
-		<ul id="fnav">
-			<li class="initial-message">Select a location to find restaurants</li>
-		</ul>
+		</div>	
+		<ul data-bind="foreach: restaurantsList()">
+			<li>
+				<b><span data-bind="text: $data.name"></span></b><br>
+				<span data-bind="text: $data.location.address"></span><br>
+				<span data-bind="text: $data.location.postalCode"></span>
+				<a data-bind="attr: { href: $data.url }"><span data-bind="text: $data.url"></span></a>
+			</li>
+		</ul>	
 	</div>
 
 	<div class="div-wrapper">
@@ -49,5 +49,13 @@
 
 		<div id="map"></div>
 	</div>
+
+	<script src="js/script.js"></script>
+	<script src="https://use.fontawesome.com/aef1209c87.js"></script>
+	<script src="js/libs/jquery-3.1.1.min.js"></script>
+	<script src="js/libs/knockout-3.4.0.js"></script>
+	<script src="js/places.js"></script>
+	<script src="js/app.js"></script>
+	<script async defer onerror="alert('Failed loading Google Map');" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAGv4TBKRTvTbAyIViy2wYriWdMU_lKLhU&libraries=geometry&v=3.26&callback=initMap"></script>
 
 </body>
